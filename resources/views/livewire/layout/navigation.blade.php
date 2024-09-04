@@ -126,38 +126,49 @@ new class extends Component {
 </nav> --}}
 
 <div class="bg-primary">
-    <nav class="container mx-auto px-6 py-8" x-data="{ menu: false }">
+    <nav class="container mx-auto px-6 py-5 md:py-8" x-data="{ menu: false }">
         <div class="flex items-center justify-between">
             <div class="text-white font-bold text-xl">
-                <a href="#"><img src="{{ asset('images/webteractive-logo.png') }}" alt=""></a>
+                <a wire:navigate href="{{ route('blogs') }}"><img src="{{ asset('images/webteractive-logo.png') }}"
+                        class="w-40 md:w-44 lg:w-48 xl:w-52" alt=""></a>
             </div>
             <div class="hidden md:block">
                 <ul class="flex items-center space-x-8">
                     <li><a href="#" class="text-white font-jakarta hover:text-secondary">News</a></li>
-                    <li><a href="#" class="text-white font-jakarta hover:text-secondary">Blogs</a></li>
+                    <li><a wire:navigate href="{{ route('blogs') }}"
+                            class="text-white font-jakarta hover:text-secondary">Blogs</a>
+                    </li>
                     <li><a href="#" class="text-white font-jakarta hover:text-secondary">Tutorials</a></li>
                     <li><a href="#" class="text-white font-jakarta hover:text-secondary">Videos</a></li>
                     <li><a href="#" class="text-white font-jakarta hover:text-secondary">Podcast</a></li>
                     @auth
                         <li x-data="{ dropdown: false }">
-                            <button @click="dropdown = !dropdown"
-                                class="relative text-white  transition-all duration-200 focus:overflow-visible w-max h-max p-2 overflow-hidden flex flex-row items-center justify-center bg-transparent gap-2 rounded-lg border-0">
-                                <span>
-                                    {{ $user->name }}
-                                </span>
-                                <svg :class="{ 'rotate-0': dropdown, 'rotate-180': !dropdown }"
-                                    xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275q-.275-.275-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275z" />
-                                </svg>
-                                <div x-show="dropdown"
-                                    class="absolute shadow-lg -bottom-20 left-0 w-full h-max p-2 bg-white border border-zinc-200 text-black rounded-md flex flex-col gap-2">
-                                    <span wire:click="logout"
-                                        class="flex gap-2 items-center text-red-500 hover:text-red-800 p-2 rounded-lg">
-                                        <p class="font-jakarta">Logout</p>
-                                    </span>
-                                </div>
-                            </button>
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button
+                                        class="inline-flex items-center px-00 font-jakarta border-0 text-sm leading-4 font-medium rounded-md text-white bg-transparent hover:text-secondary focus:outline-none transition ease-in-out duration-150">
+                                        <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
+                                            x-on:profile-updated.window="name = $event.detail.name"></div>
+
+                                        <div class="ms-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+
+                                <x-slot name="content">
+                                    <!-- Authentication -->
+                                    <button wire:click="logout" class="w-full text-start font-normal bg-transparent">
+                                        <x-dropdown-link>
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
+                                    </button>
+                                </x-slot>
+                            </x-dropdown>
                         </li>
                     @endauth
                 </ul>

@@ -1,5 +1,3 @@
     <div>
-        <div class="text-4xl font-bold">
-            Latest
-        </div>
+        <h1>This is blog index</h1>
     </div>

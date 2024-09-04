@@ -1,18 +1,16 @@
 <?php
 
+use App\Livewire\Blogs;
 use App\Livewire\Blogs\BlogsIndex;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/login');
 
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::get('/', Blogs::class)->name('blogs');
 
-// Route::get('/blogs', BlogsIndex::class)->name('blogs.index');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
-    Route::get('/blogs', BlogsIndex::class)->name('blogs.index');
+    Route::get('/blogs/index', BlogsIndex::class)->name('blogs.index');
 });
 
 Route::view('profile', 'profile')
