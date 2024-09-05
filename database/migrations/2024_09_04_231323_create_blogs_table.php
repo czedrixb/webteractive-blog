@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('slug', 255)->nullable();
             $table->string('user', 255)->nullable();
             $table->string('category', 255)->nullable();
-            $table->integer('likes')->default(0);
-            $table->integer('dislikes')->default(0);
+            $table->integer('likes')->default(0)->nullable();
+            $table->integer('dislikes')->default(0)->nullable();
             $table->timestamps();
         });
     }
