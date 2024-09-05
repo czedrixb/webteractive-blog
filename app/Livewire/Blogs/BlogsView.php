@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Blogs;
 
-use App\Models\Blogs;
+use App\Models\Blog;
 use Livewire\Component;
 
 class BlogsView extends Component
@@ -11,7 +11,7 @@ class BlogsView extends Component
 
     public function mount($id)
     {
-        $this->blog = Blogs::find($id);
+        $this->blog = Blog::find($id);
 
         if (!$this->blog) {
             abort(404, 'Blog not found');

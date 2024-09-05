@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Blogs;
 
-use App\Models\Blogs;
+use App\Models\Blog;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,7 +22,7 @@ class BlogsEdit extends Component
 
     public function mount($id)
     {
-        $this->blogs = Blogs::find($id);
+        $this->blogs = Blog::find($id);
         $this->image = $this->blogs->image;
         $this->title = $this->blogs->title;
         $this->content = $this->blogs->content;

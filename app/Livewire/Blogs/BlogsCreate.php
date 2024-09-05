@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Blogs;
 
-use App\Models\Blogs;
+use App\Models\Blog;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -39,7 +39,7 @@ class BlogsCreate extends Component
         $inputs['image'] = $file_name;
         $inputs['slug'] = str_replace(' ', '-', $this->title);
         $inputs['user'] = auth()->user()->email;
-        Blogs::create($inputs);
+        Blog::create($inputs);
 
         session()->flash('success', 'Blog created successfully!');
         return redirect('/blogs/index');
