@@ -129,18 +129,21 @@ new class extends Component {
     <nav class="container mx-auto px-6 py-5 md:py-8" x-data="{ menu: false }">
         <div class="flex items-center justify-between">
             <div class="text-white font-bold text-xl">
-                <a wire:navigate href="{{ route('blogs') }}"><img src="{{ asset('images/webteractive-logo.png') }}"
-                        class="w-40 md:w-44 lg:w-48 xl:w-52" alt=""></a>
+                <a wire:navigate href="{{ Auth::check() ? route('blogs.index') : route('blogs') }}"><img
+                        src="{{ asset('images/webteractive-logo.png') }}" class="w-40 md:w-44 lg:w-48 xl:w-52"
+                        alt=""></a>
             </div>
             <div class="hidden md:block">
                 <ul class="flex items-center space-x-8">
-                    <li><a href="#" class="text-white font-jakarta hover:text-secondary">News</a></li>
-                    <li><a wire:navigate href="{{ route('blogs') }}"
-                            class="text-white font-jakarta hover:text-secondary">Blogs</a>
-                    </li>
-                    <li><a href="#" class="text-white font-jakarta hover:text-secondary">Tutorials</a></li>
-                    <li><a href="#" class="text-white font-jakarta hover:text-secondary">Videos</a></li>
-                    <li><a href="#" class="text-white font-jakarta hover:text-secondary">Podcast</a></li>
+                    @guest
+                        <li><a href="#" class="text-white font-jakarta hover:text-secondary">News</a></li>
+                        <li><a wire:navigate href="{{ route('blogs') }}"
+                                class="text-white font-jakarta hover:text-secondary">Blogs</a>
+                        </li>
+                        <li><a href="#" class="text-white font-jakarta hover:text-secondary">Tutorials</a></li>
+                        <li><a href="#" class="text-white font-jakarta hover:text-secondary">Videos</a></li>
+                        <li><a href="#" class="text-white font-jakarta hover:text-secondary">Podcast</a></li>
+                    @endguest
                     @auth
                         <li x-data="{ dropdown: false }">
                             <x-dropdown align="right" width="48">
