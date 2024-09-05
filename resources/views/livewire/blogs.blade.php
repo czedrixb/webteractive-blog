@@ -49,23 +49,26 @@
 
         <div class="flex flex-col gap-y-8 mb-8">
             @foreach ($blogs as $blog)
-                <a wire:navigate href="/blogs/{{ $blog->slug }}/single">
+                <div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-5 mb-5">
-                        <div class="relative">
-                            <img class="w-max-full" src="{{ asset('uploads/' . $blog->image) }}">
-                            <div class="absolute left-[3%] bottom-[84%]">
-                                <div
-                                    class="px-3 py-1 text-center uppercase bg-[#FFFFFF] font-inter font-medium text-sm">
-                                    {{ $blog->category }}
+                        <a wire:navigate href="/blogs/{{ $blog->slug }}/single">
+                            <div class="relative">
+                                <img class="w-max-full" src="{{ asset('uploads/' . $blog->image) }}">
+                                <div class="absolute left-[3%] bottom-[84%]">
+                                    <div
+                                        class="px-3 py-1 text-center uppercase bg-[#FFFFFF] font-inter font-medium text-sm">
+                                        {{ $blog->category }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
 
                         <div class="flex flex-col gap-y-3 justify-between">
                             <div>
-                                <div class="text-xl font-bold font-outfit lg:text-2xl mb-3">
+                                <a wire:navigate href="/blogs/{{ $blog->slug }}/single"
+                                    class="text-xl font-bold font-outfit lg:text-2xl hover:text-secondary">
                                     {{ Str::limit($blog->title, 40, ' ...') }}
-                                </div>
+                                </a>
 
                                 <p class="text-[#606165] text-justify text-sm lg:text-md md:mb-3 xl:text-xl">
                                     {{ Str::limit(strip_tags($blog->content), 180, ' ...') }}
@@ -104,7 +107,7 @@
                     </div>
 
                     <div class="w-100 pt-[1px] bg-[#D0D1DA]"></div>
-                </a>
+                </div>
             @endforeach
         </div>
 

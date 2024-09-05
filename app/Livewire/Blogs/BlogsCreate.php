@@ -41,6 +41,8 @@ class BlogsCreate extends Component
         $inputs['image'] = $file_name;
         $inputs['slug'] = str_replace(' ', '-', $this->title);
         $inputs['user'] = auth()->user()->email;
+        $inputs['likes'] = 0;
+        $inputs['dislikes'] = 0;
         Blog::create($inputs);
 
         session()->flash('success', 'Blog created successfully!');
