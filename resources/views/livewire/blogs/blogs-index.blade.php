@@ -23,7 +23,7 @@
             <tbody>
                 @foreach ($blogs as $blog)
                     <tr class="hover:bg-slate-50">
-                        <td class="class="p-4 border-b border-slate-200 py-5"">1</td>
+                        <td class="class="p-4 border-b border-slate-200 py-5"">{{ $blog->id }}</td>
                         <td class="p-4 border-b border-slate-200 py-5">
                             <img src="{{ asset('uploads/' . $blog->image) }}" class="w-20" alt="">
                         </td>
