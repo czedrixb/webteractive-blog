@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/blogs');
 Route::get('/blogs', Blogs::class)->name('blogs');
-Route::get('/blogs-single', BlogsSingle::class)->name('blogs-single');
+Route::get('/blogs/{id}/single', BlogsSingle::class)->name('blogs-single');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {

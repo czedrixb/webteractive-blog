@@ -1,5 +1,4 @@
 <div>
-    <!-- Page Heading -->
     <nav aria-label="breadcrumb" class="w-max mb-5">
         <ol class="flex w-full flex-wrap items-center rounded-md bg-blue-gray-50 bg-opacity-60 py-2">
             <li
@@ -10,7 +9,7 @@
                         <path
                             d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5" />
                     </svg>
-                    <a class="text-accent font-medium font-inter" href="#">
+                    <a class="text-accent font-medium font-inter" wire:navigate href="{{ route('blogs') }}">
                         <span>Home</span>
                     </a>
                 </div>
@@ -25,7 +24,7 @@
             </li>
             <li
                 class="flex cursor-pointer items-center font-sans text-sm font-normal leading-normal text-blue-gray-900 antialiased transition-colors duration-300 hover:text-pink-500">
-                <a class="text-accent font-inter font-medium" href="#">
+                <a class="text-accent font-inter font-medium" wire:navigate href="{{ route('blogs') }}">
                     <span>Blogs</span>
                 </a>
                 <span
@@ -48,22 +47,16 @@
 
         <div class="w-100 pt-[1px] bg-[#D0D1DA] mb-8"></div>
 
-        @php
-            $items = range(1, 4);
-        @endphp
-
         <div class="flex flex-col gap-y-8 mb-8">
-            @foreach ($items as $item)
-                <div>
+            @foreach ($blogs as $blog)
+                <a wire:navigate href="/blogs/{{ $blog->slug }}/single">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-5 mb-5">
                         <div class="relative">
-                            <img class="w-max-full"
-                                src="https://s3-alpha-sig.figma.com/img/0aa0/675f/370e03c6d49306d12710cd65a93ce307?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qR2Lwq4GhFCMvQzSFTyxTY1Y-nTID7RNZ~nnD8O1sDk3Dqj1Con5u118au-vAPrLLp5ynvuLiw79Wt2TcS-Rwfe1dG5DT58QQHJMM8A2qQ1yJRq~yW~OORtmdZ5i0379FscULLI-36GT7zHqG318WbyYuOlhg~Z7AFdkjUIi0TQLniGeJakdZiBB-JmnE9QXuidZ4dgbElKigcIKshi48nsGmJ2D3IWRPgqKHx1y2ijrNfvvZGidukSIUc~cH5Y-i2uNBCluNeist7-Jm1P0lGLCX56UV-5n2HmHts2b0KVqQawjmBGa-gffAKiA3fUiDaypQhsV11zKwEHkaSobxQ__"
-                                alt="">
+                            <img class="w-max-full" src="{{ asset('uploads/' . $blog->image) }}">
                             <div class="absolute left-[3%] bottom-[84%]">
                                 <div
                                     class="px-3 py-1 text-center uppercase bg-[#FFFFFF] font-inter font-medium text-sm">
-                                    news
+                                    {{ $blog->category }}
                                 </div>
                             </div>
                         </div>
@@ -71,16 +64,11 @@
                         <div class="flex flex-col gap-y-3 justify-between">
                             <div>
                                 <div class="text-xl font-bold font-outfit lg:text-2xl mb-3">
-                                    Lorem Ipsum dolor sit amet, consectetur adipscing elit.
+                                    {{ Str::limit($blog->title, 40, ' ...') }}
                                 </div>
 
                                 <p class="text-[#606165] text-justify text-sm lg:text-md md:mb-3 xl:text-xl">
-                                    Maecenas a eros sit amet tellus eleifend ullamcorper. Vivamus sagittis sit amet nisi
-                                    et
-                                    sodales.
-                                    Nullam imperdiet, justo non vehicula fringilla, risus mauris pharetra dolor, vitae
-                                    tincidunt
-                                    dui
+                                    {{ Str::limit(strip_tags($blog->content), 180, ' ...') }}
                                 </p>
                             </div>
 
@@ -88,21 +76,27 @@
                                 <div class="flex gap-2 items-center">
                                     <img src="{{ asset('images/user-avatar.png') }}" class="w-8 h-8" alt="user-avatar">
 
-                                    <div class="text-xs text-[#606165]">April 18, 2023 by <span
-                                            class="text-secondary">Aaron
-                                            Carman</span></div>
+                                    @php
+                                        $user = DB::table('users')
+                                            ->where('email', $blog->user)
+                                            ->first();
+                                    @endphp
+
+                                    <div class="text-xs text-[#606165]">{{ $blog->created_at->format('F j, Y') }} by
+                                        <span class="text-secondary capitalize">{{ $user->name }}</span>
+                                    </div>
                                 </div>
 
                                 <div class="flex gap-x-4 items-center justify-end md:justify-start">
-                                    <button class="flex gap-x-1 items-center text-[#606165] bg-transprarent">
+                                    <button wire:click="like({{ $blog->id }})"
+                                        class="flex gap-x-1 items-center text-[#606165] hover:text-secondary active:text-secondary bg-transparent">
                                         <i class="fa-solid fa-thumbs-up"></i>
-
-                                        100
+                                        {{ $blog->likes }}
                                     </button>
-                                    <button class="flex gap-x-1 items-center text-[#606165] bg-transprarent">
+                                    <button wire:click="dislike({{ $blog->id }})"
+                                        class="flex gap-x-1 items-center text-[#606165] hover:text-secondary active:text-secondary bg-transparent">
                                         <i class="fa-solid fa-thumbs-down"></i>
-
-                                        100
+                                        {{ $blog->dislikes }}
                                     </button>
                                 </div>
                             </div>
@@ -110,7 +104,7 @@
                     </div>
 
                     <div class="w-100 pt-[1px] bg-[#D0D1DA]"></div>
-                </div>
+                </a>
             @endforeach
         </div>
 
@@ -126,16 +120,16 @@
                 <div>
                     Share blog:
                 </div>
-                <a>
+                <a href="#">
                     <i class="fa-brands fa-facebook-f"></i>
                 </a>
-                <a>
+                <a href="#">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
-                <a>
+                <a href="#">
                     <i class="fa-brands fa-x-twitter"></i>
                 </a>
-                <a>
+                <a href="#">
                     <i class="fa-brands fa-linkedin-in"></i>
                 </a>
             </div>

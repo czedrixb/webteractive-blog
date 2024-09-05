@@ -4,6 +4,8 @@ namespace App\Livewire\Blogs;
 
 use App\Models\Blog;
 use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
+
 
 class BlogsIndex extends Component
 {
@@ -20,6 +22,10 @@ class BlogsIndex extends Component
 
     public function delete(Blog $blogs)
     {
+        $file = 'uploads/' . $blogs->image;
+        if (Storage::disk('public')->exists($file)) {
+            Storage::disk('public')->delete($file);
+        }
         $blogs->delete();
         session()->flash('success', 'Blog deleted Successfully!');
         return redirect('/blogs/index');

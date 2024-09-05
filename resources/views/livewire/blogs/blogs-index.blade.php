@@ -15,6 +15,7 @@
                     <th class="p-4 text-sm font-normal leading-none text-slate-500">ID</th>
                     <th class="p-4 text-sm font-normal leading-none text-slate-500">Thumbnail</th>
                     <th class="p-4 text-sm font-normal leading-none text-slate-500">Title</th>
+                    <th class="p-4 text-sm font-normal leading-none text-slate-500">Category</th>
                     <th class="p-4 text-sm font-normal leading-none text-slate-500">Created by</th>
                     <th class="p-4 text-sm font-normal leading-none text-slate-500">Action</th>
                 </tr>
@@ -28,6 +29,9 @@
                         </td>
                         <td class="p-4 border-b border-slate-200 py-5">
                             <p class="block font-semibold text-sm text-slate-800">{{ $blog->title }}</p>
+                        </td>
+                        <td class="p-4 border-b border-slate-200 py-5">
+                            <p class="block font-semibold text-sm text-slate-800">{{ $blog->category }}</p>
                         </td>
                         <td class="p-4 border-b border-slate-200 py-5">
                             <p class="text-sm text-slate-500">{{ $blog->user }}</p>

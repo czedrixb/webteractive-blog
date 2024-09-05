@@ -13,6 +13,7 @@ class BlogsCreate extends Component
 
     public $image;
     public $title;
+    public $category;
     public $content;
     public $slug;
     public $user;
@@ -30,6 +31,7 @@ class BlogsCreate extends Component
             'image' => 'required|image|max:1024',
             'title' => 'required|max:255',
             'content' => 'required',
+            'category' => 'required',
         ]);
 
         $file_name = Str::random(10) . '.' . $this->image->getClientOriginalExtension();

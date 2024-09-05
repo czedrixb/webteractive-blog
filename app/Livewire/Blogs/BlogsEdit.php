@@ -14,6 +14,7 @@ class BlogsEdit extends Component
     public $blogs;
     public $image;
     public $title;
+    public $category;
     public $content;
     public $slug;
     public $user;
@@ -25,6 +26,7 @@ class BlogsEdit extends Component
         $this->blogs = Blog::find($id);
         $this->image = $this->blogs->image;
         $this->title = $this->blogs->title;
+        $this->category = $this->blogs->category;
         $this->content = $this->blogs->content;
     }
 
@@ -40,6 +42,7 @@ class BlogsEdit extends Component
         $this->validate([
             'title' => 'required|max:255',
             'content' => 'required',
+            'category' => 'required',
         ]);
 
         $inputs = $this->all();

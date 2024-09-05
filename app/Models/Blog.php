@@ -15,6 +15,7 @@ class Blog extends Model
         'content',
         'slug',
         'user',
+        'category',
         'likes',
         'dislikes',
     ];

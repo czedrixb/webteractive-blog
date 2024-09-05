@@ -67,6 +67,24 @@
                 </div>
 
                 <div>
+                    <label>Category</label>
+                    <select wire:model="category" name="category"
+                        class="w-full rounded-lg border-gray-300 focus:border-secondary transition-all ease-out duration-150">
+                        <option value="{{ $category }}" class="selected hidden">{{ $category }}</option>
+                        <option value="News">News</option>
+                        <option value="Podcast">Podcast</option>
+                        <option value="Blog">Blog</option>
+                        <option value="News">News</option>
+                    </select>
+
+                    @error('category')
+                        <div class="text-red-700">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div>
                     <div wire:ignore>
                         <label>Content</label>
                         <textarea id="summernote" wire:model.defer="content" name="content" rows="5">{!! $content !!}</textarea>

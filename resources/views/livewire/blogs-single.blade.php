@@ -10,7 +10,7 @@
                         <path
                             d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5" />
                     </svg>
-                    <a class="text-accent font-medium font-inter" href="#">
+                    <a class="text-accent font-medium font-inter" href="{{ route('blogs') }}">
                         <span>Home</span>
                     </a>
                 </div>
@@ -25,7 +25,7 @@
             </li>
             <li
                 class="flex cursor-pointer items-center font-sans text-sm font-normal leading-normal text-blue-gray-900 antialiased transition-colors duration-300 hover:text-pink-500">
-                <a class="text-accent font-inter font-medium" href="#">
+                <a class="text-accent font-inter font-medium" href="{{ route('blogs') }}">
                     <span>Blogs</span>
                 </a>
                 <span
@@ -40,7 +40,7 @@
             <li
                 class="flex cursor-pointer items-center font-sans text-sm font-normal leading-normal text-blue-gray-900 antialiased transition-colors duration-300 hover:text-pink-500">
                 <a class="text-black font-inter font-medium" href="#">
-                    <span>Blog Title</span>
+                    <span>{{ $blog->title }}</span>
                 </a>
             </li>
         </ol>
@@ -50,27 +50,33 @@
     <div class="lg:max-w-screen-md xl:max-w-screen-lg pb-5">
         <div class="mb-10">
             <div class="text-3xl md:text-5xl font-outfit font-semibold mb-5 ps-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                {{ $blog->title }}
             </div>
 
             <div class="flex justify-between items-center mb-5">
                 <div class="flex gap-2 items-center">
                     <img src="{{ asset('images/user-avatar.png') }}" class="w-8 h-8" alt="user-avatar">
 
-                    <div class="text-xs md:text-md text-[#606165]">April 18, 2023 by <span class="text-secondary">Aaron
-                            Carman</span></div>
+                    @php
+                        $user = DB::table('users')
+                            ->where('email', $blog->user)
+                            ->first();
+                    @endphp
+
+                    <div class="text-xs md:text-md text-[#606165]">{{ $blog->created_at->format('F j, Y') }} by <span
+                            class="text-secondary">{{ $user->name }}</span></div>
                 </div>
 
                 <div class="flex gap-x-4 items-center">
-                    <button class="flex gap-x-1 items-center text-[#606165] bg-transprarent">
+                    <button wire:click="like({{ $blog->id }})"
+                        class="flex gap-x-1 items-center text-[#606165] hover:text-secondary active:text-secondary bg-transparent">
                         <i class="fa-solid fa-thumbs-up"></i>
-
-                        100
+                        {{ $blog->likes }}
                     </button>
-                    <button class="flex gap-x-1 items-center text-[#606165] bg-transprarent">
+                    <button wire:click="dislike({{ $blog->id }})"
+                        class="flex gap-x-1 items-center text-[#606165] hover:text-secondary active:text-secondary bg-transparent">
                         <i class="fa-solid fa-thumbs-down"></i>
-
-                        100
+                        {{ $blog->dislikes }}
                     </button>
                 </div>
             </div>
@@ -78,9 +84,12 @@
             <hr class="bg-[#D0D1DA]">
         </div>
 
-        <p class="text-[#606165]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus necessitatibus
-            maiores maxime at ab! Placeat
-            ab distinctio laudantium obcaecati repellendus, sunt fugiat aliquam nulla aperiam dolor quisquam asperiores
-            cumque quod!</p>
+        <div class="mb-5">
+            <img class="w-max-full" class="max-w-full" src="{{ asset('uploads/' . $blog->image) }}">
+        </div>
+
+        <div class="text-[#606165]">
+            {!! $blog->content !!}
+        </div>
     </div>
 </div>
